@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Эхо Миров</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=4529a573-e4f4-4616-94e6-9ba4cba3263f"
+    type="text/javascript"></script>
+</head>
+<body>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Поиск по названию..." onkeyup="searchPlaces(), showSuggestions()">
+        <ul id="suggestions"></ul>
+        <div class="burger-icon" id="burger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="burger-menu">
+        <nav class="menu" id="menu">
+            <h1>Фильтры</h1>
+            <div class="button-list">
+                <button onclick="filterPlaces('all')">Все</button>
+                <button onclick="filterPlaces('street')">Площади и улицы</button>
+                <button onclick="filterPlaces('park')">Парки и садовые комплексы</button>
+                <button onclick="filterPlaces('museum')">Музеи и галереи</button>
+                <button onclick="filterPlaces('churches')">Церкви и храмы</button>
+                <button onclick="filterPlaces('theaters')">Театры и цирки</button>
+                <button onclick="filterPlaces('attractions')">Исторические места и памятники</button>
+                <button onclick="filterPlaces('culturalBuildings')">Культовые и культурные здания</button>
+                <button onclick="filterPlaces('trading')">Торговые и развлекательные места</button>
+                <button onclick="filterPlaces('exhibitionCenters')">Открытые площадки и выставочные центры</button>
+            </div>
+        </nav>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
