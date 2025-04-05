@@ -31,7 +31,12 @@ html, body {
     border: none;
     outline: none;
     font-size: 14px;
-    width: 250px;
+    width: 100%;
+    max-width: 400px;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 /* Контейнер бургера */
@@ -48,9 +53,9 @@ html, body {
     justify-content: space-between;
     cursor: pointer;
     position: absolute;
-    top: 15px;
+    top: 10px;
     z-index: 1000;
-    margin-left: 225px; 
+    margin-left: 240px;
 }
 
 .burger-icon span {
@@ -145,6 +150,7 @@ html, body {
     display: none;
     max-height: 500px; 
     overflow-y: auto;
+    margin-left: -10px;
 }
 
 #suggestions li {
