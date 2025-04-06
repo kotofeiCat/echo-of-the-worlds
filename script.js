@@ -213,7 +213,7 @@ ymaps.ready(function () {
         controls: []
     });
 
-    if (exam != 1) {
+    if (exam == 0) {
         ymaps.geolocation.get({
             provider: 'browser',
             mapStateAutoApply: true
