@@ -201,21 +201,27 @@ var places = [
 ];
 
 ymaps.ready(function () {
+    const params = new URLSearchParams(window.location.search);
+    const lat = parseFloat(params.get('lat') || 55.733842); // Координаты по умолчанию — Красная площадь
+    const lon = parseFloat(params.get('lon') || 37.588144);
+    const zoomMap = parseInt(params.get('z') || 10);
+    const exam = parseInt(params.get('exam') || 0);
 
     myMap = new ymaps.Map('map', {
-        center: [55, 34],
-        zoom: 10,
+        center: [lat, lon],
+        zoom: zoomMap,
         controls: []
     });
 
-    // Определение местоположения пользователя
-    ymaps.geolocation.get({
-        provider: 'browser',
-        mapStateAutoApply: true
-    }).then(function (result) {
-        result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-        myMap.geoObjects.add(result.geoObjects);
-    });
+    if (exam != 1) {
+        ymaps.geolocation.get({
+            provider: 'browser',
+            mapStateAutoApply: true
+        }).then(function (result) {
+            result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
+            myMap.geoObjects.add(result.geoObjects);
+        });
+    }
 
     
     places.forEach(function (place) {
