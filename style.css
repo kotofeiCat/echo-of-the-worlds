@@ -125,9 +125,6 @@ html, body {
             background-color: #CBE9FF;
             transform: scale(0.95); /* Немного уменьшаем кнопку */
         }
-        .button-list button.clicked {
-            background-color: #406480; /* Цвет, который останется после нажатия */
-        }
 
 #searchInput {
     width: 100%;
