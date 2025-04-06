@@ -1,7 +1,6 @@
 
 let myMap;
 let placemarks = [];
-let activeButton = null;
 var places = [
     { type: "street", coords: [55.753544, 37.621202], name: "Красная площадь", description: "Красная площадь — место, обязательное для посещения. Сюда устремляются все гости столицы. Для москвичей — это сердце любимого города, где отмечаются все праздники, проходят торжественные мероприятия и военные парады. До конца XV века на месте Красной площади был Великий посад. После пожара 1493 года, уничтожившего почти все деревянные постройки, было решено не застраивать освободившееся пространство. Пока вокруг него возводились новые здания, площадь заполнилась торговыми палатками. В XVI веке она называлась Троицкой. Современное название — Красная — площадь получила в XVII веке. Деревянные помосты были заменены брусчаткой в начале XIX столетия." },
 
@@ -247,8 +246,8 @@ ymaps.ready(function () {
         }
 
         let placemark = new ymaps.Placemark(place.coords, {
-            balloonContentHeader: `<p>${place.name}</p><br>`,
-            balloonContentBody: `<p>${place.description}</p>`,
+            balloonContentHeader: `<p>${place.name}</p>`,
+            balloonContentBody: `<div class="ballon-content"> <p>${place.description}</p> </div>`,
             hintContent: place.name,
             minZoom: 10, // метка будет видна только при zoom >= 10
             maxZoom: 18
@@ -265,7 +264,6 @@ ymaps.ready(function () {
         myMap.geoObjects.add(placemark);
         placemarks.push(placemark);
     });
-
 });
 function searchPlaces() {
     let searchValue = document.getElementById('searchInput').value.toLowerCase();

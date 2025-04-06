@@ -41,11 +41,12 @@ html, body {
 
 /* Контейнер бургера */
 .burger-menu {
-    position: relative;
+    position: absolute;
 }
 
 /* Бургер-кнопка */
 .burger-icon {
+    position: absolute;
     width: 40px;
     height: 30px;
     display: flex;
@@ -160,6 +161,16 @@ html, body {
 
 #suggestions li:hover {
     background: #f0f0f0;
+}
+
+.ballon-content {
+    width: 80vw; /* Ширина 80% от ширины экрана */
+    height: 60vh; /* Высота 60% от высоты экрана */
+    max-width: 300px; /* Максимальная ширина */
+    max-height: 300px; /* Максимальная высота */
+    overflow: auto;  /* Если контента много, будет появляться прокрутка */
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 
