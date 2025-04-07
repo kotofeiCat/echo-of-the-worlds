@@ -230,23 +230,23 @@ ymaps.ready(function () {
         let placeiconImage; 
 
         if (place.type == "street") {
-            placeiconImage = "/img/улицы.png";
+            placeiconImage = "img/улицы.png";
         } else if (place.type == "park") {
-            placeiconImage = "/img/парки.png";
+            placeiconImage = "img/парки.png";
         } else if (place.type == "museum") {
-            placeiconImage = '/img/музеи.png';
+            placeiconImage = 'img/музеи.png';
         } else if (place.type == "churches") {
-            placeiconImage = "/img/церкви.png";
+            placeiconImage = "img/церкви.png";
         } else if (place.type == "theaters") {
-            placeiconImage = "/img/театр.png";
+            placeiconImage = "img/театр.png";
         } else if (place.type == "attractions") {
-            placeiconImage = "/img/памятники.png";
+            placeiconImage = "img/памятники.png";
         } else if (place.type == "culturalBuildings") {
-            placeiconImage = "/img/культурные здания.png";
+            placeiconImage = "img/культурные здания.png";
         } else if (place.type == "trading") {
-            placeiconImage = "/img/торговые и развл. места.png";
+            placeiconImage = "img/торговые и развл. места.png";
         } else if (place.type == "exhibitionCenters") {
-            placeiconImage = "/img/выставки.png";
+            placeiconImage = "img/выставки.png";
         }
         else if (place.type == "home") {
             placeiconImage = "https://mywebicons.ru/i/png/cec47d2a0284da4ec3d0f79b32ba48b8.png";
