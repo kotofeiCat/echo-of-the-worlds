@@ -196,6 +196,8 @@ var places = [
 
     { type: "museum", coords: [55.767011, 37.614226], name: "Московский музей современного искусства ", description: "Московский музей современного искусства (ММоМА — Moscow Museum of Modern Art) открылся в 1999 году и собрал под своей крышей богатейшую коллекцию современного искусства XX-XXI веков. Всего в музее хранится 12 000 произведений русских и зарубежных авторов — картины, скульптуры, графика, фотографии, инсталляции. В основу экспозиций легла частная коллекция первого директора галереи Зураба Церетели. Он передал музею 2000 экспонатов, в том числе произведения Пикассо, Дали, Шагала, Малевича, Кандинского. Гордость музея — значительное собрание работ грузинского художника-примитивиста Нико Пиросмани.Музей занимает старинное здание в классическом стиле, построенное в конце XVIII века.Его двор — выставка под открытым небом, где собраны работы Зураба Церетели и других современных скульпторов. " },
 
+    { type: "home", coords: [48.74245, 44.5369], name: "Родина-мать зовёт!", description: "Aboba"}
+
 ];
 
 ymaps.ready(function () {
@@ -246,11 +248,9 @@ ymaps.ready(function () {
         }
 
         let placemark = new ymaps.Placemark(place.coords, {
-            balloonContentHeader: `<p>${place.name}</p>`,
+            balloonContentHeader: `<h2 class="text-style">${place.name}</h2>`,
             balloonContentBody: `<div class="ballon-content"> <p>${place.description}</p> </div>`,
             hintContent: place.name,
-            minZoom: 10, // метка будет видна только при zoom >= 10
-            maxZoom: 18
         },{
             iconLayout: 'default#image', // Используем своё изображение
             iconImageHref: placeiconImage, // Ссылка на фото (PNG, JPG, SVG)
@@ -263,6 +263,11 @@ ymaps.ready(function () {
 
         myMap.geoObjects.add(placemark);
         placemarks.push(placemark);
+
+    });
+
+    myMap.events.add('click', function(){
+        myMap.balloon.close();
     });
 });
 function searchPlaces() {
@@ -302,27 +307,34 @@ function showSuggestions() {
     let suggestionsList = document.getElementById("suggestions");
 
     suggestionsList.innerHTML = "";
-    if (!input) {
-        suggestionsList.style.display = "none";
-        return;
-    }
+    suggestionsList.classList.remove("visible");
 
-    let filteredPlaces = places.filter(place => place.name.toLowerCase().includes(input));
+    if (!input) return;
+
+    let filteredPlaces = places.filter(place =>
+        place.name.toLowerCase().includes(input)
+    );
 
     if (filteredPlaces.length > 0) {
-        suggestionsList.style.display = "block";
-
         filteredPlaces.forEach(place => {
             let listItem = document.createElement("li");
             listItem.textContent = place.name;
             listItem.onclick = function () {
                 document.getElementById("searchInput").value = place.name;
-                suggestionsList.style.display = "none";
+                suggestionsList.classList.remove("visible");
                 myMap.setCenter(place.coords, 20);
             };
             suggestionsList.appendChild(listItem);
         });
-    } else {
-        suggestionsList.style.display = "none";
+        setTimeout(() => suggestionsList.classList.add("visible"), 10);
     }
+
+    document.addEventListener("click", function (e) {
+        const suggestions = document.getElementById("suggestions");
+        const input = document.getElementById("searchInput");
+        if (!suggestions.contains(e.target) && e.target !== input) {
+            suggestions.classList.remove("visible");
+        }
+    });
 }
+
