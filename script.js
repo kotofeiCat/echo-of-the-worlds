@@ -196,7 +196,9 @@ var places = [
 
     { type: "museum", coords: [55.767011, 37.614226], name: "Московский музей современного искусства ", description: "Московский музей современного искусства (ММоМА — Moscow Museum of Modern Art) открылся в 1999 году и собрал под своей крышей богатейшую коллекцию современного искусства XX-XXI веков. Всего в музее хранится 12 000 произведений русских и зарубежных авторов — картины, скульптуры, графика, фотографии, инсталляции. В основу экспозиций легла частная коллекция первого директора галереи Зураба Церетели. Он передал музею 2000 экспонатов, в том числе произведения Пикассо, Дали, Шагала, Малевича, Кандинского. Гордость музея — значительное собрание работ грузинского художника-примитивиста Нико Пиросмани.Музей занимает старинное здание в классическом стиле, построенное в конце XVIII века.Его двор — выставка под открытым небом, где собраны работы Зураба Церетели и других современных скульпторов. " },
 
-    { type: "home", coords: [48.74245, 44.5369], name: "Родина-мать зовёт!", description: "Aboba"}
+    { type: "home", coords: [48.74245, 44.5369], name: "Родина-мать зовёт!", description: "«Ро́дина-мать зовёт!» — скульптура, композиционный центр памятника-ансамбля «Героям Сталинградской битвы» на Мамаевом кургане в Волгограде. Одна из самых высоких статуй мира, высочайшая статуя России (без постамента — самая высокая статуя в мире на момент постройки и в течение последующих 22 лет)."},
+
+    { type: "friend", coords: [47.22597, 39.74583], name: "Стела «Освободителям Ростова»", description: "Памятник-стела «Воинам-освободителям г. Ростова-на-Дону от немецко-фашистских захватчиков» — возведён на центральной площади Ростова-на-Дону в честь освобождения города от нацистских войск. Торжественное открытие памятника состоялось 8 мая 1983 года[1]. Этот памятник установлен к 40-летию освобождения Ростова-на-Дону и напоминает жителям города и его гостям о трагедии военных лет."}
 
 ];
 
@@ -228,23 +230,29 @@ ymaps.ready(function () {
         let placeiconImage; 
 
         if (place.type == "street") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/3547/3547364.png";
+            placeiconImage = "/img/улицы.png";
         } else if (place.type == "park") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/7561/7561338.png";
+            placeiconImage = "/img/парки.png";
         } else if (place.type == "museum") {
-            placeiconImage = 'https://cdn-icons-png.flaticon.com/512/8/8154.png';
+            placeiconImage = '/img/музеи.png';
         } else if (place.type == "churches") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/3660/3660427.png";
+            placeiconImage = "/img/церкви.png";
         } else if (place.type == "theaters") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/7561/7561385.png";
+            placeiconImage = "/img/театр.png";
         } else if (place.type == "attractions") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/7561/7561320.png";
+            placeiconImage = "/img/памятники.png";
         } else if (place.type == "culturalBuildings") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/774/774220.png";
+            placeiconImage = "/img/культурные здания.png";
         } else if (place.type == "trading") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/6470/6470384.png";
+            placeiconImage = "/img/торговые и развл. места.png";
         } else if (place.type == "exhibitionCenters") {
-            placeiconImage = "https://cdn-icons-png.flaticon.com/512/1373/1373071.png";
+            placeiconImage = "/img/выставки.png";
+        }
+        else if (place.type == "home") {
+            placeiconImage = "https://mywebicons.ru/i/png/cec47d2a0284da4ec3d0f79b32ba48b8.png";
+        }
+        else if (place.type == "friend") {
+            placeiconImage = "https://images.icon-icons.com/1727/PNG/512/3986712-memorial-obelisk-stella-icon_112977.png";
         }
 
         let placemark = new ymaps.Placemark(place.coords, {
