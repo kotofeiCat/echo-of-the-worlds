@@ -1,6 +1,9 @@
 
 let myMap;
 let placemarks = [];
+var currentGeoObject = null;
+var multiRoute;
+let userLocations = []; 
 var places = [
     { type: "street", coords: [55.753544, 37.621202], name: "Красная площадь", description: "Красная площадь — место, обязательное для посещения. Сюда устремляются все гости столицы. Для москвичей — это сердце любимого города, где отмечаются все праздники, проходят торжественные мероприятия и военные парады. До конца XV века на месте Красной площади был Великий посад. После пожара 1493 года, уничтожившего почти все деревянные постройки, было решено не застраивать освободившееся пространство. Пока вокруг него возводились новые здания, площадь заполнилась торговыми палатками. В XVI веке она называлась Троицкой. Современное название — Красная — площадь получила в XVII веке. Деревянные помосты были заменены брусчаткой в начале XIX столетия." },
 
@@ -220,8 +223,18 @@ ymaps.ready(function () {
             provider: 'browser',
             mapStateAutoApply: true
         }).then(function (result) {
+            // Удаляем предыдущую точку, если она существует
+            if (currentGeoObject) {
+                myMap.geoObjects.remove(currentGeoObject);
+            }
+
+            var currentCoords = result.geoObjects.get(0).geometry.getCoordinates();
+            userLocations.push(currentCoords);
+
+            // Настроим и добавим новую точку
             result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-            myMap.geoObjects.add(result.geoObjects);
+            currentGeoObject = result.geoObjects;  // Сохраняем текущую точку
+            myMap.geoObjects.add(currentGeoObject);
         });
     }
 
@@ -257,7 +270,8 @@ ymaps.ready(function () {
 
         let placemark = new ymaps.Placemark(place.coords, {
             balloonContentHeader: `<h2 class="text-style">${place.name}</h2>`,
-            balloonContentBody: `<div class="ballon-content"> <p>${place.description}</p> </div>`,
+            balloonContentBody: `<div class="balloon-content"> <p>${place.description}</p> </div>`,
+            balloonContentFooter: `<button class="balloon-button" onclick="setRout(${place.coords[0]}, ${place.coords[1]})"> Построить маршрут</button>`,
             hintContent: place.name,
         },{
             iconLayout: 'default#image', // Используем своё изображение
@@ -276,6 +290,7 @@ ymaps.ready(function () {
 
     myMap.events.add('click', function(){
         myMap.balloon.close();
+        myMap.geoObjects.remove(multiRoute);
     });
 });
 function searchPlaces() {
@@ -304,8 +319,22 @@ function getMyPos(){
         provider: 'browser',
         mapStateAutoApply: true
     }).then(function (result) {
+        // Удаляем предыдущую точку, если она существует
+        if (currentGeoObject) {
+            myMap.geoObjects.remove(currentGeoObject);
+        }
+
+        var currentCoords = result.geoObjects.get(0).geometry.getCoordinates();
+        userLocations.push(currentCoords);
+        if (userLocations.length > 1) {
+            // Удаляем все элементы, кроме последнего
+            userLocations.splice(0, userLocations.length - 1);
+        }
+
+        // Настроим и добавим новую точку
         result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
-        myMap.geoObjects.add(result.geoObjects);
+        currentGeoObject = result.geoObjects;  // Сохраняем текущую точку
+        myMap.geoObjects.add(currentGeoObject);
     });
 }
 
@@ -355,4 +384,43 @@ function showSuggestions() {
         }
     });
 }
+
+function saveUserLocation() {
+    console.log(saveUserLocation)
+    ymaps.geolocation.get().then(function(result) {
+        var currentCoords = result.geoObjects.get(0).geometry.getCoordinates();
+        userLocations.push(currentCoords);
+        if (userLocations.length > 1) {
+            // Удаляем все элементы, кроме последнего
+            userLocations.splice(0, userLocations.length - 1);
+        }
+        console.log('Местоположения пользователя:', userLocations);
+    }).catch(function(error) {
+        console.error('Ошибка при получении местоположения:', error);
+    });
+}
+setInterval(saveUserLocation, 60000)
+
+function setRout(lat, lon){
+    var pointA = [55.749, 37.524];
+    var coordsPlacemark = []
+    coordsPlacemark.push(lat,lon);
+
+    multiRoute = new ymaps.multiRouter.MultiRoute({
+        referencePoints: [
+            userLocations,
+            coordsPlacemark
+        ],
+        params: {
+            //Тип маршрутизации - пешеходная маршрутизация.
+            routingMode: 'pedestrian'
+        }
+    }, {
+        // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+        boundsAutoApply: true
+    });
+
+    myMap.geoObjects.add(multiRoute);
+}
+
 
