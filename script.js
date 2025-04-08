@@ -299,6 +299,16 @@ function filterPlaces(type) {
     });
 }
 
+function getMyPos(){
+    ymaps.geolocation.get({
+        provider: 'browser',
+        mapStateAutoApply: true
+    }).then(function (result) {
+        result.geoObjects.options.set('preset', 'islands#blueCircleIcon');
+        myMap.geoObjects.add(result.geoObjects);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const burger = document.getElementById("burger");
     const menu = document.getElementById("menu");
