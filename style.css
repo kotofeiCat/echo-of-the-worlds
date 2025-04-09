@@ -200,6 +200,7 @@ html, body {
 .text-style {
     font-family: 'Courier', monospace;
     font-weight: bold;
+    max-width: 400px;
 }
 
 .text-style-main {

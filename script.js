@@ -278,6 +278,9 @@ ymaps.ready(function () {
             iconImageHref: placeiconImage, // Ссылка на фото (PNG, JPG, SVG)
             iconImageSize: [40, 40], // Размер значка
             iconImageOffset: [-20, -40], // Смещение (чтобы указатель был точным)
+        }, {
+            balloonMaxWidth: 400,        // ширина
+            balloonMaxHeight: 1000,      // увеличить высоту (если нужно)
         });
 
         placemark.name = place.name.toLowerCase();
@@ -286,12 +289,17 @@ ymaps.ready(function () {
         myMap.geoObjects.add(placemark);
         placemarks.push(placemark);
 
+        placemark.events.add('balloonclose', function () {
+            myMap.geoObjects.remove(multiRoute);
+        });
+        
     });
 
     myMap.events.add('click', function(){
         myMap.balloon.close();
         myMap.geoObjects.remove(multiRoute);
     });
+
 });
 function searchPlaces() {
     let searchValue = document.getElementById('searchInput').value.toLowerCase();
@@ -342,10 +350,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const burger = document.getElementById("burger");
     const menu = document.getElementById("menu");
 
-    burger.addEventListener("click", function () {
+    // Открытие/закрытие по нажатию на бургер
+    burger.addEventListener("click", function (e) {
+        e.stopPropagation(); // Предотвращаем всплытие, чтобы клик не ушел вверх
         menu.classList.toggle("open");
         burger.classList.toggle("open");
-        activeButton.classList.remove('clicked');
+    });
+
+    // Клик по меню не закрывает его (если хочешь, можешь убрать это)
+    menu.addEventListener("click", function (e) {
+        e.stopPropagation(); // Чтобы клик по меню не сработал как "вне меню"
+    });
+
+    // Клик в любое другое место документа
+    document.addEventListener("click", function () {
+        // Если меню открыто — закрываем его
+        if (menu.classList.contains("open")) {
+            menu.classList.remove("open");
+            burger.classList.remove("open");
+        }
     });
 });
 
@@ -384,22 +407,6 @@ function showSuggestions() {
         }
     });
 }
-
-function saveUserLocation() {
-    console.log(saveUserLocation)
-    ymaps.geolocation.get().then(function(result) {
-        var currentCoords = result.geoObjects.get(0).geometry.getCoordinates();
-        userLocations.push(currentCoords);
-        if (userLocations.length > 1) {
-            // Удаляем все элементы, кроме последнего
-            userLocations.splice(0, userLocations.length - 1);
-        }
-        console.log('Местоположения пользователя:', userLocations);
-    }).catch(function(error) {
-        console.error('Ошибка при получении местоположения:', error);
-    });
-}
-setInterval(saveUserLocation, 60000)
 
 function setRout(lat, lon){
     var pointA = [55.749, 37.524];
